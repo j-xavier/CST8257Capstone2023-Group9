@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('tasklists', function (Blueprint $table) {
             $table->id();
-            $table->foreign('tasklist_id')->references('id')->on('tasklists');
             $table->string('title', 100);
-            $table->string('description', 1000);
-            $table->foreign('priority_id')->references('id')->on('priorities');
-            $table->integer('view_order');
-            $table->dateTime('start_date');
-            $table->dateTime('due_date');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('color');
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('tasklists');
     }
 };
