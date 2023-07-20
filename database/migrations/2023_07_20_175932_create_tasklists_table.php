@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tasklists', function (Blueprint $table) {
             $table->id();
             $table->string('title', 100);
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer("user_id")->foreign('user_id')->references('id')->on('users');
             $table->string('color');
             $table->timestamps();
         });

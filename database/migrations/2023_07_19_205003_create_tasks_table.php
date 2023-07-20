@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreign('tasklist_id')->references('id')->on('tasklists');
+            $table->integer("tasklist_id")->foreign('tasklist_id')->references('id')->on('tasklists');
             $table->string('title', 100);
             $table->string('description', 1000);
-            $table->foreign('priority_id')->references('id')->on('priorities');
+            $table->integer("priority_id")->foreign('priority_id')->references('id')->on('priorities');
             $table->integer('view_order');
             $table->dateTime('start_date');
             $table->dateTime('due_date');
