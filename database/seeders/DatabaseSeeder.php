@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,6 +13,35 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        \App\Models\User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => Hash::make('password')
+        ]);
+
+        \App\Models\User::factory(9)->create();
+
+        $this->call([
+            NoteSeeder::class
+        ]);
+
+
+        // seeding the priority table
+        \App\Models\Priority::factory()->create([
+            'priority' => 'Low',
+            'priority_order' => 1
+        ]);
+
+        \App\Models\Priority::factory()->create([
+            'priority' => 'Medium',
+            'priority_order' => 2
+        ]);
+
+        \App\Models\Priority::factory()->create([
+            'priority' => 'High',
+            'priority_order' => 3
+        ]);
+
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
