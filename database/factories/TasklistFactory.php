@@ -17,7 +17,9 @@ class TasklistFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => fake()->numberBetween(1, 2),
+            'title' => fake()->sentence(3),
+            'color' => fake()->hexColor(),
         ];
     }
 }

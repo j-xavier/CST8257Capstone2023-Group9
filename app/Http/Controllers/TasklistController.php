@@ -12,7 +12,9 @@ class TasklistController extends Controller
      */
     public function index()
     {
-        //
+        $tasklists = Tasklist::all();
+
+        return response()->json($tasklists, 200);
     }
 
     /**

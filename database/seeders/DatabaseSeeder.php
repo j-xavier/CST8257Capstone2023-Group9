@@ -38,6 +38,15 @@ class DatabaseSeeder extends Seeder
             'priority_order' => 3
         ]);
 
+        // seeding the tasklist table
+        \App\Models\Tasklist::factory()->create([
+            'user_id' => 1,
+            'title' => 'My First Tasklist',
+            'color' => '#FF0000',
+        ]);
+
+        \App\Models\Tasklist::factory(5)->create();
+
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
