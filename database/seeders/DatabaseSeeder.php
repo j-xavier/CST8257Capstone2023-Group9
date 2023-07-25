@@ -45,7 +45,9 @@ class DatabaseSeeder extends Seeder
             'color' => '#FF0000',
         ]);
 
-        \App\Models\Tasklist::factory(5)->create();
+        \App\Models\Tasklist::factory(9)->create();
+
+        \App\Models\Task::factory(100)->create();
 
         // \App\Models\User::factory(10)->create();
 
