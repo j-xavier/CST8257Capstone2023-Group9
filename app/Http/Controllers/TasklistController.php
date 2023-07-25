@@ -15,10 +15,10 @@ class TasklistController extends Controller
     public function index(User $user)
     {
 
-        if(Auth::id()!==$user->id){
+        if (Auth::id() !== $user->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
-        return response()->json($user->tasklists, 200);
+        return response()->json($user->taskLists, 200);
     }
 
     /**
