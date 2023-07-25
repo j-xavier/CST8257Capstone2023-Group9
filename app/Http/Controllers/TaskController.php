@@ -12,7 +12,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $tasks = Task::all();
+
+        return response()->json($tasks, 200);
     }
 
     /**
@@ -20,15 +22,26 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $task = new Task();
+        
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        $task = new Task();
+        $task->tasklist_id = request('tasklist_id');
+        $task->title = request('title');
+        $task->description = request('description');
+        $task->priority_id = request('priority_id');
+        $task->view_order = request('view_order');
+        $task->start_date = request('start_date');
+        $task->due_date = request('due_date');
+        $task->save();
+
+        return response()->json($task, 201);
     }
 
     /**
