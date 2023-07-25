@@ -3,18 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tasklist;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TasklistController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(User $user)
     {
-        $tasklists = Tasklist::all();
 
-        return response()->json($tasklists, 200);
+        if(Auth::id()!==$user->id){
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        return response()->json($user->tasklists, 200);
     }
 
     /**
