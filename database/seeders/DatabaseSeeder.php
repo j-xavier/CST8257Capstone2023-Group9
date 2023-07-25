@@ -21,10 +21,6 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory(9)->create();
 
-        $this->call([
-            NoteSeeder::class
-        ]);
-
 
         // seeding the priority table
         \App\Models\Priority::factory()->create([
