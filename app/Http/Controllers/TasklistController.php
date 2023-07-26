@@ -40,28 +40,40 @@ class TasklistController extends Controller
      */
     public function show(User $user, Tasklist $tasklist)
     {
-        dd($user->toArray(), $tasklist->toArray());
-        return response()->json($tasklist, 200);
-        /*if (Auth::id() !== $tasklist->user_id) {
+        if (Auth::id() !== $tasklist->user_id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        return response()->json($tasklist, 200);*/
+        return response()->json($tasklist, 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tasklist $tasklist)
+    public function update(Request $request, User $user, Tasklist $tasklist)
     {
-        //
+        if (Auth::id() !== $tasklist->user_id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $tasklist->title = $request->title;
+        $tasklist->color = $request->color;
+        $tasklist->save();
+
+        return response()->json($tasklist, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tasklist $tasklist)
+    public function destroy(User $user, Tasklist $tasklist)
     {
-        //
+        if (Auth::id() !== $tasklist->user_id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $tasklist->delete();
+
+        return response()->json($tasklist, 200);
     }
 }
