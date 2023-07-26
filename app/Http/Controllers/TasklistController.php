@@ -18,15 +18,7 @@ class TasklistController extends Controller
         if (Auth::id() !== $user->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
-        return response()->json($user->taskLists, 200);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return response()->json($user->tasklists, 200);
     }
 
     /**
@@ -34,23 +26,27 @@ class TasklistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tasklist = new Tasklist();
+        $tasklist->title = $request->title;
+        $tasklist->user_id = Auth::id();
+        $tasklist->color = $request->color;
+        $tasklist->save();
+
+        return response()->json($tasklist, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Tasklist $tasklist)
+    public function show(User $user, Tasklist $tasklist)
     {
-        //
-    }
+        dd($user->toArray(), $tasklist->toArray());
+        return response()->json($tasklist, 200);
+        /*if (Auth::id() !== $tasklist->user_id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Tasklist $tasklist)
-    {
-        //
+        return response()->json($tasklist, 200);*/
     }
 
     /**

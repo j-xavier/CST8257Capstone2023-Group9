@@ -43,7 +43,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function taskLists()
+    public function tasklists()
     {
         return $this->hasMany(Tasklist::class);
     }
