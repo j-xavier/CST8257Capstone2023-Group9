@@ -21,5 +21,5 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // any route in here is protected by sanctum
-    Route::apiResource('users.tasklists', TasklistController::class);
+    Route::apiResource('tasklists', TasklistController::class);
 });

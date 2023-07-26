@@ -12,8 +12,9 @@ class TasklistController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(User $user)
+    public function index()
     {
+        $user = Auth::user();
 
         if (Auth::id() !== $user->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
@@ -38,7 +39,7 @@ class TasklistController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user, Tasklist $tasklist)
+    public function show(Tasklist $tasklist)
     {
         if (Auth::id() !== $tasklist->user_id) {
             return response()->json(['message' => 'Unauthorized'], 403);
@@ -50,7 +51,7 @@ class TasklistController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user, Tasklist $tasklist)
+    public function update(Request $request, Tasklist $tasklist)
     {
         if (Auth::id() !== $tasklist->user_id) {
             return response()->json(['message' => 'Unauthorized'], 403);
@@ -66,11 +67,13 @@ class TasklistController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user, Tasklist $tasklist)
+    public function destroy(Tasklist $tasklist)
     {
         if (Auth::id() !== $tasklist->user_id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
+
+        $tasklist->tasks()->delete();
 
         $tasklist->delete();
 
