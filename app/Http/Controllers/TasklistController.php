@@ -16,9 +16,6 @@ class TasklistController extends Controller
     {
         $user = Auth::user();
 
-        if (Auth::id() !== $user->id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
         return response()->json($user->tasklists, 200);
     }
 
@@ -28,9 +25,14 @@ class TasklistController extends Controller
     public function store(Request $request)
     {
         $tasklist = new Tasklist();
-        $tasklist->title = $request->title;
+
+        //fields that are not in the form
         $tasklist->user_id = Auth::id();
+
+        //fields that are in the form
+        $tasklist->title = $request->title;
         $tasklist->color = $request->color;
+
         $tasklist->save();
 
         return response()->json($tasklist, 201);
@@ -73,6 +75,7 @@ class TasklistController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
+        // delete all tasks in the tasklist to avoid referential integrity errors
         $tasklist->tasks()->delete();
 
         $tasklist->delete();
