@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TasklistController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\PriorityController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,3 +26,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('tasklists', TasklistController::class);
     Route::apiResource('tasklists.tasks', TaskController::class);
 });
+
+Route::apiResource('priorities', PriorityController::class)->only(['index', 'show']);
