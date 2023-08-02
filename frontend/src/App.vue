@@ -3,6 +3,7 @@ import { ref, computed } from "vue";
 import { state } from "./state.js";
 import Login from "./components/Login.vue";
 import Navbar from "./components/Navbar.vue";
+import Tasklists from "./components/Tasklists.vue";
 
 state.token = sessionStorage.getItem("token") || "";
 
@@ -25,6 +26,8 @@ function handleLogout() {
         <div v-else>
             <h1>Logged in</h1>
             <p>Token: {{ state.token }}</p>
+            <Tasklists v-if="state.token" :token="state.token" />
+            
         </div>
     </main>
 </template>
