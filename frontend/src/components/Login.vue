@@ -2,18 +2,26 @@
 import { login } from "../api.js";
 import { ref, defineEmits } from "vue";
 
-const emits = defineEmits();
+const emit = defineEmits(["login"]);
 
 const email = ref("");
 const password = ref("");
 
+const waitingForResponse = ref(false);
+
 async function loginHandler(e) {
     e.preventDefault();
 
+    if (waitingForResponse.value) {
+        return;
+    }
+
+    waitingForResponse.value = true;
     const response = await login(email.value, password.value);
+    waitingForResponse.value = false;
 
     if (response.token) {
-        emits("login", response.token);
+        emit("login", response.token);
     }
 }
 </script>
@@ -47,7 +55,14 @@ async function loginHandler(e) {
                 />
             </div>
 
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button
+                type="submit"
+                :class="`btn btn-primary ${
+                    waitingForResponse ? 'disabled' : ''
+                }`"
+            >
+                Login
+            </button>
         </div>
     </form>
 </template>
