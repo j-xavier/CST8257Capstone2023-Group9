@@ -14,4 +14,9 @@ class Task extends Model
     {
         return $this->belongsTo(Tasklist::class);
     }
+
+    public function priority(): BelongsTo
+    {
+        return $this->belongsTo(Priority::class);
+    }
 }

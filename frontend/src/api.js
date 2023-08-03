@@ -82,6 +82,7 @@ export const tasklist = async () => {
         });
 
         if (response.status === 200) {
+            console.log(response.data);
             return response.data;
         }
     } catch (error) {
@@ -111,11 +112,32 @@ export const createTask = async (task) => {
     }
 };
 
+export const updateTasklist = async () => {
+    try {
+        const response = await api({
+            method: "put",
+            url: `/api/tasklists/${state.tasklistId}`,
+            headers: { Authorization: `Bearer ${state.token}` },
+            data: {
+                title: state.tasklist.title,
+                color: state.tasklist.color,
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 //export all methods
 export default {
     login,
     logout,
     tasklists,
     createTasklist,
-    createTask
+    createTask,
+    updateTasklist,
 };

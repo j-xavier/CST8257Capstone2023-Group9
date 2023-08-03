@@ -49,7 +49,13 @@ class TasklistController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
+        // load tasklist with all tasks, and add priority name using priority id in the task
         $tasklist->load('tasks');
+       
+        $tasklist->tasks->each(function ($task) {
+            $task->priority_name = $task->priority->priority;
+        });
+        
 
         return response()->json($tasklist, 200);
     }
