@@ -16,7 +16,9 @@ class TasklistController extends Controller
     {
         $user = Auth::user();
 
-        return response()->json($user->tasklists, 200);
+        $tasklists = Tasklist::withCount('tasks')->where('user_id', $user->id)->get();
+
+        return response()->json($tasklists, 200);
     }
 
     /**

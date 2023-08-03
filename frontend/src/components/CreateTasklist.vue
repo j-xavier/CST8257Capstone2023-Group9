@@ -1,36 +1,28 @@
-<script>
-    import { ref } from "vue";
-    import { createTasklist } from "../api.js";
+<script setup>
+import { reactive } from "vue";
+import { createTasklist } from "../api.js";
+import { state } from "../state.js";
 
-    export default {
-        data() {
-            return {
-                list: {
-                    title: "",
-                    color: "red",
-                },
-            };
-        },
-        methods: {
-            async createTasklist() {
-                const {title, color} = this.list;
-                const response = await createTasklist(
-                    sessionStorage.getItem("token"),
-                    title,
-                    color
-                );
-                location.reload();
-                
-            }
-        }
-    };
+const list = reactive({
+    title: "",
+    color: "red",
+});
 
+async function formHandler() {
+    const response = await createTasklist(list);
+
+    if (response) {
+        state.view = "Tasklists";
+    } else {
+        alert("Failed to create tasklist");
+    }
+}
 </script>
 
 <template>
-
+    <button @click="state.view = 'Tasklists'">Cancel</button>
     <!-- form for creating a new tasklist -->
-    <form @submit.prevent="createTasklist">
+    <form @submit.prevent="formHandler">
         <label for="title">Tasklist Name: </label>
         <input
             type="text"
@@ -49,6 +41,4 @@
 
         <button type="submit">Create Tasklist</button>
     </form>
-
 </template>
-

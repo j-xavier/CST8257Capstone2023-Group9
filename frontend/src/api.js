@@ -38,12 +38,12 @@ export const logout = async (token) => {
     }
 };
 
-export const tasklists = async (token) => {
+export const tasklists = async () => {
     try {
         const response = await api({
             method: "get",
             url: "/api/tasklists",
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { Authorization: `Bearer ${state.token}` },
         });
         return response.data;
     } catch (error) {
@@ -51,20 +51,25 @@ export const tasklists = async (token) => {
     }
 };
 
-export const createTasklist = async (token, title, color) => {
+export const createTasklist = async (list) => {
     try {
         const response = await api({
             method: "post",
             url: "/api/tasklists",
-            headers: { Authorization: `Bearer ${token}` },
-            data: { title, color },
+            headers: { Authorization: `Bearer ${state.token}` },
+            data: {
+                title: list.title,
+                color: list.color,
+            },
         });
-        return response.data;
+
+        if (response.status === 201) {
+            return response.data;
+        }
     } catch (error) {
         console.log(error);
     }
 };
-
 
 //export all methods
 export default {

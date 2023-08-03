@@ -1,8 +1,11 @@
 <script setup>
-import { defineProps, defineEmits } from "vue";
 import { state } from "../state.js";
 
-const emits = defineEmits(["logout"]);
+function handleLogout() {
+    state.token = "";
+    sessionStorage.removeItem("token");
+    state.view = "Login";
+}
 </script>
 
 <template>
@@ -12,7 +15,7 @@ const emits = defineEmits(["logout"]);
             <button
                 v-if="state.token !== ''"
                 class="btn btn-primary"
-                @click="() => emits('logout')"
+                @click="handleLogout"
             >
                 Logout
             </button>

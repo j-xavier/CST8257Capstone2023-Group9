@@ -1,33 +1,34 @@
 <script setup>
 import { login } from "../api.js";
-import { ref, defineEmits } from "vue";
-
-const emit = defineEmits(["login"]);
+import { ref } from "vue";
+import { state } from "../state.js";
 
 const email = ref("");
 const password = ref("");
 
 const waitingForResponse = ref(false);
 
-async function loginHandler(e) {
-    e.preventDefault();
-
+async function loginHandler() {
+    // this prevents the form from being submitted if the user is already waiting for a response
     if (waitingForResponse.value) {
         return;
     }
-
     waitingForResponse.value = true;
     const response = await login(email.value, password.value);
     waitingForResponse.value = false;
 
     if (response.token) {
-        emit("login", response.token);
+        state.token = response.token;
+        sessionStorage.setItem("token", response.token);
+        state.view = "Tasklists";
+    } else {
+        alert("Login failed");
     }
 }
 </script>
 
 <template>
-    <form @submit="loginHandler">
+    <form @submit.prevent="loginHandler">
         <div class="d-flex flex-column align-items-center">
             <h1>Login</h1>
 
