@@ -7,6 +7,7 @@ const taskList = ref(null);
 
 tasklist().then((response) => {
     taskList.value = response;
+    console.log(taskList.value?.color)
 });
 
 const tableStyle = reactive({
@@ -20,7 +21,6 @@ function getRowColor(index) {
 }
 
 function showEditTasklist() {
-    console.log(taskList.value);
     state.tasklist = taskList.value;
     state.view = "EditTasklist";
 }

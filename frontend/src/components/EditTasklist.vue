@@ -1,6 +1,6 @@
 <script setup>
 import { state } from "../state.js";
-import { updateTasklist } from "../api.js";
+import { updateTask } from "../api.js";
 import { reactive } from "vue";
 
 const list = reactive({
@@ -59,7 +59,7 @@ const list = reactive({
                 <td>{{ task.start_date }}</td>
                 <td>{{ task.due_date }}</td>
                 <td>{{ task.priority_name }}</td>
-                <td><i class="fa-solid fa-pen-to-square"></i></td>
+                <td><p class="fa-solid fa-pen-to-square" @click="state.view='EditTask'">Edit</p></td>
             </tr>
         </tbody>
     </table>

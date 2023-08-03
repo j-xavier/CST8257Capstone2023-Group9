@@ -9,6 +9,7 @@ import Tasklist from "./components/Tasklist.vue";
 import CreateTasklist from "./components/CreateTasklist.vue";
 import NewTask from "./components/NewTask.vue";
 import EditTasklist from "./components/EditTasklist.vue";
+import EditTask from "./components/EditTask.vue";
 
 state.token = sessionStorage.getItem("token") || "";
 
@@ -22,7 +23,8 @@ const views = {
     CreateTasklist,
     Tasklist,
     NewTask,
-    EditTasklist
+    EditTasklist,
+    EditTask,
 };
 
 const currentView = computed(() => views[state.view]);

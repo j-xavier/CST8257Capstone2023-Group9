@@ -132,6 +132,30 @@ export const updateTasklist = async () => {
     }
 };
 
+export const updateTask = async (task) => {
+    try {
+        const response = await api({
+            method: "put",
+            url: `/api/tasklists/${state.tasklistId}/tasks/${task.id}`,
+            headers: { Authorization: `Bearer ${state.token}` },
+            data: {
+                title: task.title,
+                description: task.description,
+                start_date: task.start_date,
+                due_date: task.due_date,
+                priority_id: task.priority,
+            }
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
 //export all methods
 export default {
     login,
@@ -140,4 +164,5 @@ export default {
     createTasklist,
     createTask,
     updateTasklist,
+    updateTask,
 };
