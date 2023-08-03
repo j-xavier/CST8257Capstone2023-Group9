@@ -7,6 +7,11 @@ const list = reactive({
     title: state.tasklist.title,
     color: state.tasklist.color,
 });
+
+function handleEditTask(task) {
+    state.task = task;
+    state.view = "EditTask";
+}
 </script>
 
 <template>
@@ -59,7 +64,7 @@ const list = reactive({
                 <td>{{ task.start_date }}</td>
                 <td>{{ task.due_date }}</td>
                 <td>{{ task.priority_name }}</td>
-                <td><p class="fa-solid fa-pen-to-square" @click="state.view='EditTask'">Edit</p></td>
+                <td><span class="material-symbols-outlined" @click="handleEditTask(task)">edit_square</span></td>
             </tr>
         </tbody>
     </table>
