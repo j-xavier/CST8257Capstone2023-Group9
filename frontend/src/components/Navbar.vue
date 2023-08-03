@@ -1,11 +1,6 @@
 <script setup>
+import { logout } from "../api";
 import { state } from "../state.js";
-
-function handleLogout() {
-    state.token = "";
-    sessionStorage.removeItem("token");
-    state.view = "Login";
-}
 </script>
 
 <template>
@@ -15,7 +10,7 @@ function handleLogout() {
             <button
                 v-if="state.token !== ''"
                 class="btn btn-primary"
-                @click="handleLogout"
+                @click="logout"
             >
                 Logout
             </button>

@@ -24,15 +24,17 @@ export const login = async (email, password) => {
     }
 };
 
-export const logout = async (token) => {
+export const logout = () => {
     try {
-        const response = await api({
+        api({
             method: "post",
             url: "/logout",
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { Authorization: `Bearer ${state.token}` },
         });
 
-        return response.data;
+        state.token = "";
+        sessionStorage.removeItem("token");
+        state.view = "Login";
     } catch (error) {
         console.log(error);
     }
