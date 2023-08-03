@@ -71,6 +71,22 @@ export const createTasklist = async (list) => {
     }
 };
 
+export const tasklist = async () => {
+    try {
+        const response = await api({
+            method: "get",
+            url: `/api/tasklists/${state.tasklistId}`,
+            headers: { Authorization: `Bearer ${state.token}` },
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 //export all methods
 export default {
     login,

@@ -49,6 +49,8 @@ class TasklistController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
+        $tasklist->load('tasks');
+
         return response()->json($tasklist, 200);
     }
 
