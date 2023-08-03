@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar.vue";
 import Tasklists from "./components/Tasklists.vue";
 import Tasklist from "./components/Tasklist.vue";
 import CreateTasklist from "./components/CreateTasklist.vue";
+import NewTask from "./components/NewTask.vue";
 
 state.token = sessionStorage.getItem("token") || "";
 
@@ -19,6 +20,7 @@ const views = {
     Tasklists,
     CreateTasklist,
     Tasklist,
+    NewTask,
 };
 
 const currentView = computed(() => views[state.view]);

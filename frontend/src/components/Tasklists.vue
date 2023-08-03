@@ -15,12 +15,22 @@ function openTasklist(tasklist) {
 </script>
 
 <template>
-    <button class="btn btn-primary mt-2" @click="state.view = 'CreateTasklist'">
-        Create Tasklist
-    </button>
+    
 
     <div v-if="taskLists !== null">
-        <h2>Your Tasklists</h2>
+        <div class="row justify-content-between my-3">
+            <div class="col-auto">
+                <h2 class="m-0">Your Tasklists</h2>
+    
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary" @click="state.view = 'CreateTasklist'">
+                Create Tasklist
+            </button>
+            </div>
+            
+        </div>
+        
         <table v-if="taskLists.length" class="table table-hover">
             <thead>
                 <tr>
@@ -45,3 +55,9 @@ function openTasklist(tasklist) {
         <h2>Loading...</h2>
     </div>
 </template>
+
+<style>
+    tbody tr {
+        cursor: pointer;
+    }
+</style>

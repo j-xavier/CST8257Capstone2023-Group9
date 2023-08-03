@@ -11,12 +11,23 @@ tasklist().then((response) => {
 </script>
 
 <template>
-    <button class="btn btn-primary mt-2" @click="state.view = 'Tasklists'">
-        Back
-    </button>
+    
 
-    <div v-if="taskList !== null">
-        <h2>{{ taskList.title }}</h2>
+    <div v-if="taskList">
+        <div class="row justify-content-between my-3">
+            <div class="col-auto">
+                <h2 class="m-0">{{ taskList.title }}</h2>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary me-3" @click="state.view = 'NewTask'">
+                    New task
+                </button>
+                <button class="btn btn-primary" @click="state.view = 'Tasklists'">
+                    Back
+                </button>
+            </div>
+        </div>
+        
         <table v-if="taskList.tasks.length" class="table table-hover">
             <thead>
                 <tr>
