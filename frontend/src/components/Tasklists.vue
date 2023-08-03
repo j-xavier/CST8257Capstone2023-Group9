@@ -18,7 +18,7 @@
         <h2>Your Tasklists</h2>
         <ul v-if="taskLists.length">
         <li v-for="taskList in taskLists" :key="taskList.id">
-            {{ taskList.title }}
+            {{ taskList.title }} - {{ taskList.color }}
         </li>
         </ul>
         <div v-else>
