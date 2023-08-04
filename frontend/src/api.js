@@ -82,7 +82,6 @@ export const tasklist = async () => {
         });
 
         if (response.status === 200) {
-            console.log(response.data);
             return response.data;
         }
     } catch (error) {
@@ -112,15 +111,15 @@ export const createTask = async (task) => {
     }
 };
 
-export const updateTasklist = async () => {
+export const updateTasklist = async (list) => {
     try {
         const response = await api({
             method: "put",
             url: `/api/tasklists/${state.tasklistId}`,
             headers: { Authorization: `Bearer ${state.token}` },
             data: {
-                title: state.tasklist.title,
-                color: state.tasklist.color,
+                title: list.title,
+                color: list.color,
             },
         });
 
@@ -132,19 +131,38 @@ export const updateTasklist = async () => {
     }
 };
 
-export const updateTask = async (task) => {
+export const updateTask = async (list) => {
     try {
+        
         const response = await api({
             method: "put",
-            url: `/api/tasklists/${state.tasklistId}/tasks/${task.id}`,
+            url: `/api/tasklists/${state.tasklistId}/tasks/${list.id}`,
             headers: { Authorization: `Bearer ${state.token}` },
             data: {
-                title: task.title,
-                description: task.description,
-                start_date: task.start_date,
-                due_date: task.due_date,
-                priority_id: task.priority,
+                title: list.title,
+                description: list.description,
+                start_date: list.start_date,
+                due_date: list.due_date,
+                priority_id: list.priority,
             }
+        });
+
+        console.log("Response: ", response);
+
+        if (response.status === 200) {
+            return response.data;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const viewTask = async (id) => {
+    try {
+        const response = await api({
+            method: "get",
+            url: `/api/tasklists/${state.tasklistId}/tasks/${id}`,
+            headers: { Authorization: `Bearer ${state.token}` },
         });
 
         if (response.status === 200) {
@@ -165,4 +183,5 @@ export default {
     createTask,
     updateTasklist,
     updateTask,
+    viewTask,
 };

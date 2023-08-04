@@ -1,12 +1,23 @@
 <script setup>
 import { state } from "../state.js";
-import { updateTask } from "../api.js";
+import { updateTasklist } from "../api.js";
 import { reactive } from "vue";
 
 const list = reactive({
     title: state.tasklist.title,
     color: state.tasklist.color,
 });
+
+async function handleEditTasklist() {
+    const response = await updateTasklist(list);
+
+    if (response) {
+        state.tasklist = list;
+        state.view = "Tasklist";
+    } else {
+        alert("Failed to create tasklist");
+    }
+}
 
 function handleEditTask(task) {
     state.task = task;
@@ -15,7 +26,7 @@ function handleEditTask(task) {
 </script>
 
 <template>
-    <form class="d-flex">
+    <form class="d-flex" @submit.prevent="handleEditTasklist">
         <div class="d-flex align-items-center">
             <label for="title">Tasklist Name:</label>
             <div>

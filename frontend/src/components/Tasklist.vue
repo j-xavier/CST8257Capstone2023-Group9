@@ -7,7 +7,6 @@ const taskList = ref(null);
 
 tasklist().then((response) => {
     taskList.value = response;
-    console.log(taskList.value?.color)
 });
 
 const tableStyle = reactive({
@@ -23,6 +22,12 @@ function getRowColor(index) {
 function showEditTasklist() {
     state.tasklist = taskList.value;
     state.view = "EditTasklist";
+}
+
+function seeTask(task, taskList) {
+    state.task = task;
+    state.tasklist = taskList;
+    state.view = "ViewTask";
 }
 </script>
 
@@ -52,11 +57,12 @@ function showEditTasklist() {
         <table v-if="taskList.tasks.length" class="table table-hover">
             <thead>
                 <tr>
-                    <th>Title</th>
+                    <th>Task Name</th>
                     <th>Description</th>
                     <th>Start Date</th>
                     <th>Due Date</th>
                     <th>Priority</th>
+                    <th>View</th>
                 </tr>
             </thead>
             <tbody>
@@ -66,6 +72,7 @@ function showEditTasklist() {
                     <td>{{ task.start_date }}</td>
                     <td>{{ task.due_date }}</td>
                     <td>{{ task.priority_name }}</td>
+                    <td><span class="material-symbols-outlined" @click="seeTask(task, taskList)">search</span></td>
                 </tr>
             </tbody>
         </table>
