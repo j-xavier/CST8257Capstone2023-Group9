@@ -123,8 +123,6 @@ export const updateTasklist = async (list) => {
             },
         });
 
-        console.log("Response: ", response);
-
         if (response.status === 200) {
             return response.data;
         }

@@ -39,13 +39,19 @@ async function handleEditTask() {
         <div>
             <label for="title">Task Name:</label>
             <div>
-                <input type="text" class="form-control" v-model="list.title" />
+                <input
+                    name="title"
+                    type="text"
+                    class="form-control"
+                    v-model="list.title"
+                />
             </div>
         </div>
         <div>
             <label for="description">Description:</label>
             <div>
                 <input
+                    name="description"
                     type="text"
                     class="form-control"
                     v-model="list.description"
@@ -56,6 +62,7 @@ async function handleEditTask() {
             <label for="start_date">Start Date:</label>
             <div>
                 <input
+                    name="start_date"
                     type="date"
                     class="form-control"
                     v-model="list.start_date"
@@ -66,6 +73,7 @@ async function handleEditTask() {
             <label for="due_date">Due Date:</label>
             <div>
                 <input
+                    name="due_date"
                     type="date"
                     class="form-control"
                     v-model="list.due_date"

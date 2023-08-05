@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Tasklist::factory()->create([
             'user_id' => 1,
             'title' => 'My First Tasklist',
-            'color' => '#FF0000',
+            'color' => 'red',
         ]);
 
         \App\Models\Tasklist::factory(9)->create();

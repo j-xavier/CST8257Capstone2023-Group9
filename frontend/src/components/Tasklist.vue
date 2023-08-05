@@ -10,13 +10,17 @@ tasklist().then((response) => {
 });
 
 const tableStyle = reactive({
-    backgroundColor: taskList.value?.color
+    backgroundColor: taskList.value?.color,
 });
 
 function getRowColor(index) {
-    return index % 2 === 0 
-        ? {backgroundColor: 'taskList.value?.color'} 
-        : {backgroundColor: '#ddd'};
+    const colors = {
+        red: ["#f99", "#fcc"],
+        blue: ["#99f", "#ccf"],
+        green: ["#9f9", "#cfc"],
+        yellow: ["#ff9", "#ffc"],
+    };
+    return { backgroundColor: colors[taskList.value?.color][index % 2] };
 }
 
 function showEditTasklist() {
@@ -31,11 +35,7 @@ function seeTask(task, taskList) {
 }
 </script>
 
-
-
 <template>
-    
-
     <div v-if="taskList">
         <div class="row justify-content-between my-3">
             <div class="col-auto">
@@ -45,15 +45,21 @@ function seeTask(task, taskList) {
                 <button class="btn btn-primary me-3" @click="showEditTasklist">
                     Edit Tasklist
                 </button>
-                <button class="btn btn-primary me-3" @click="state.view = 'NewTask'">
+                <button
+                    class="btn btn-primary me-3"
+                    @click="state.view = 'NewTask'"
+                >
                     New task
                 </button>
-                <button class="btn btn-primary" @click="state.view = 'Tasklists'">
+                <button
+                    class="btn btn-primary"
+                    @click="state.view = 'Tasklists'"
+                >
                     Back
                 </button>
             </div>
         </div>
-        
+
         <table v-if="taskList.tasks.length" class="table table-hover">
             <thead>
                 <tr>
@@ -66,13 +72,23 @@ function seeTask(task, taskList) {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="task, index in taskList.tasks" :key="index" :style="getRowColor(index)">
+                <tr
+                    v-for="(task, index) in taskList.tasks"
+                    :key="index"
+                    :style="getRowColor(index)"
+                >
                     <td>{{ task.title }}</td>
                     <td>{{ task.description }}</td>
                     <td>{{ task.start_date }}</td>
                     <td>{{ task.due_date }}</td>
                     <td>{{ task.priority_name }}</td>
-                    <td><span class="material-symbols-outlined" @click="seeTask(task, taskList)">search</span></td>
+                    <td>
+                        <span
+                            class="material-symbols-outlined"
+                            @click="seeTask(task, taskList)"
+                            >search</span
+                        >
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -81,7 +97,7 @@ function seeTask(task, taskList) {
 </template>
 
 <style>
-    td {
-        background-color: inherit !important;
-    }
+td {
+    background-color: inherit !important;
+}
 </style>
