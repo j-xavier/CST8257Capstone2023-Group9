@@ -123,6 +123,8 @@ export const updateTasklist = async (list) => {
             },
         });
 
+        console.log("Response: ", response);
+
         if (response.status === 200) {
             return response.data;
         }
@@ -133,7 +135,6 @@ export const updateTasklist = async (list) => {
 
 export const updateTask = async (list) => {
     try {
-        
         const response = await api({
             method: "put",
             url: `/api/tasklists/${state.tasklistId}/tasks/${list.id}`,
@@ -143,11 +144,9 @@ export const updateTask = async (list) => {
                 description: list.description,
                 start_date: list.start_date,
                 due_date: list.due_date,
-                priority_id: list.priority,
-            }
+                priority_id: list.priority_id,
+            },
         });
-
-        console.log("Response: ", response);
 
         if (response.status === 200) {
             return response.data;
@@ -172,7 +171,6 @@ export const viewTask = async (id) => {
         console.log(error);
     }
 };
-
 
 //export all methods
 export default {

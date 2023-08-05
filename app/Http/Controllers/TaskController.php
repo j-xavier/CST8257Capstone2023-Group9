@@ -34,7 +34,6 @@ class TaskController extends Controller
 
         //fields that are not in the form
         $task->tasklist_id = $tasklist->id;
-        $task->view_order = $tasklist->tasks->count() + 1;
 
         //fields that are in the form
         $task->title = $request->title;
@@ -69,7 +68,6 @@ class TaskController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        $task->view_order = $request->view_order;
         $task->title = $request->title;
         $task->description = $request->description;
         $task->priority_id = $request->priority_id;
