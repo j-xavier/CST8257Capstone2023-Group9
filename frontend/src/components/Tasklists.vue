@@ -1,5 +1,5 @@
 <script setup>
-import { tasklists } from "../api.js";
+import { tasklists, deleteTasklist } from "../api.js";
 import { state } from "../state.js";
 import { ref } from "vue";
 
@@ -37,6 +37,16 @@ function sortByTasks() {
     });
 }
 
+function deleteConfirmation(tasklistToDelete) {
+    if (confirm("Are you sure you want to delete the following tasklist?\n\n" + tasklistToDelete.title + "\n\nThis action cannot be undone.")) {
+        deleteTasklist(tasklistToDelete.id);
+        // tasklist().then((response) => {
+        //     taskList.value = response;
+        // });
+        //console.log(tasklistToDelete);
+    }
+}
+
 </script>
 
 <template>
@@ -60,17 +70,25 @@ function sortByTasks() {
                 <tr>
                     <th @click="sortByTitle" style="cursor: pointer">Title</th>
                     <th @click="sortByTasks" style="cursor: pointer">Tasks</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
                 <tr
                     
-                    @click="openTasklist(taskList)"
+                    
                     v-for="taskList in taskLists"
                     :key="taskList.id"
                 >
-                    <td style="cursor: pointer">{{ taskList.title }}</td>
-                    <td style="cursor: pointer">{{ taskList.tasks_count }}</td>
+                    <td @click="openTasklist(taskList)" style="cursor: pointer">{{ taskList.title }}</td>
+                    <td @click="openTasklist(taskList)" style="cursor: pointer">{{ taskList.tasks_count }}</td>
+                    <td>
+                        <span
+                            class="material-symbols-outlined"
+                            @click="deleteConfirmation(taskList)"
+                            >delete</span
+                        >
+                    </td>
                 </tr>
             </tbody>
             

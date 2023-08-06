@@ -6,4 +6,5 @@ export const state = reactive({
     tasklistId: null,
     tasklist: null,
     task: null,
+    tasklists: [],
 });
