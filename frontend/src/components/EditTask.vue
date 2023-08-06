@@ -13,9 +13,7 @@ const list = reactive({
 });
 
 async function handleEditTask() {
-    console.log("Before calling updateTask");
     const response = await updateTask(list);
-    console.log("After calling updateTask");
 
     if (response) {
         state.task = list;

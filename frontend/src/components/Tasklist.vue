@@ -33,6 +33,54 @@ function seeTask(task, taskList) {
     state.tasklist = taskList;
     state.view = "ViewTask";
 }
+
+function sortByName() {
+    taskList.value.tasks.sort((a, b) => {
+        if (a.title < b.title) {
+            return -1;
+        } else if (a.title > b.title) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+}
+
+function sortByStartDate() {
+    taskList.value.tasks.sort((a, b) => {
+        if (a.start_date < b.start_date) {
+            return -1;
+        } else if (a.start_date > b.start_date) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+}
+
+function sortByDueDate() {
+    taskList.value.tasks.sort((a, b) => {
+        if (a.due_date < b.due_date) {
+            return -1;
+        } else if (a.due_date > b.due_date) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+}
+
+function sortByPriority() {
+    taskList.value.tasks.sort((a, b) => {
+        if (a.priority_id < b.priority_id) {
+            return 1;
+        } else if (a.priority_id > b.priority_id) {
+            return -1;
+        } else {
+            return 0;
+        }
+    });
+}
 </script>
 
 <template>
@@ -63,11 +111,11 @@ function seeTask(task, taskList) {
         <table v-if="taskList.tasks.length" class="table table-hover">
             <thead>
                 <tr>
-                    <th>Task Name</th>
+                    <th @click="sortByName" style="cursor: pointer;">Task Name</th>
                     <th>Description</th>
-                    <th>Start Date</th>
-                    <th>Due Date</th>
-                    <th>Priority</th>
+                    <th @click="sortByStartDate" style="cursor: pointer;">Start Date</th>
+                    <th @click="sortByDueDate" style="cursor: pointer;">Due Date</th>
+                    <th @click="sortByPriority" style="cursor: pointer;">Priority</th>
                     <th>View</th>
                 </tr>
             </thead>
@@ -99,5 +147,9 @@ function seeTask(task, taskList) {
 <style>
 td {
     background-color: inherit !important;
+    cursor: default;
+}
+td:nth-child(6):hover {
+    cursor: pointer;
 }
 </style>
