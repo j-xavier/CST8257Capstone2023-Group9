@@ -64,12 +64,13 @@ function sortByTasks() {
             </thead>
             <tbody>
                 <tr
+                    
                     @click="openTasklist(taskList)"
                     v-for="taskList in taskLists"
                     :key="taskList.id"
                 >
-                    <td>{{ taskList.title }}</td>
-                    <td>{{ taskList.tasks_count }}</td>
+                    <td style="cursor: pointer">{{ taskList.title }}</td>
+                    <td style="cursor: pointer">{{ taskList.tasks_count }}</td>
                 </tr>
             </tbody>
             
@@ -82,7 +83,7 @@ function sortByTasks() {
 </template>
 
 <style>
-tbody tr {
+tbody tr{
     cursor: pointer;
 }
 </style>

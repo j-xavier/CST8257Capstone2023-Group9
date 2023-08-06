@@ -1,10 +1,17 @@
 <script setup>
 
     import { state } from '../state';
+    import { deleteTask } from '../api';
 
     const list = state.task;
 
-
+function deleteConfirmation() {
+    if (confirm("Are you sure you want to delete the following task?\n\n" + state.task.title + "\n\nThis action cannot be undone.")) {
+        deleteTask(state.task.id);
+        state.task = null;
+        state.view = 'Tasklist';
+    }
+}
 </script>
 
 <template>
@@ -14,6 +21,9 @@
                 <h2 class="m-0">{{ state.tasklist.title }}</h2>
             </div>
             <div class="col-auto">
+                <button class="btn btn-danger me-3" @click="deleteConfirmation">
+                    Delete Task
+                </button>
                 <button class="btn btn-primary me-3" @click="state.view = 'EditTask'">
                     Edit Task
                 </button>

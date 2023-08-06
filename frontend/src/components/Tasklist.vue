@@ -1,6 +1,6 @@
 <script setup>
 import { state } from "../state";
-import { tasklist } from "../api";
+import { tasklist, deleteTask } from "../api";
 import { ref, reactive } from "vue";
 
 const taskList = ref(null);
@@ -81,6 +81,16 @@ function sortByPriority() {
         }
     });
 }
+
+function deleteConfirmation(taskToDelete) {
+    if (confirm("Are you sure you want to delete the following task?\n\n" + taskToDelete.title + "\n\nThis action cannot be undone.")) {
+        deleteTask(taskToDelete.id);
+        tasklist().then((response) => {
+            taskList.value = response;
+        });
+        //state.view = 'Tasklist';
+    }
+}
 </script>
 
 <template>
@@ -117,6 +127,7 @@ function sortByPriority() {
                     <th @click="sortByDueDate" style="cursor: pointer;">Due Date</th>
                     <th @click="sortByPriority" style="cursor: pointer;">Priority</th>
                     <th>View</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -137,6 +148,13 @@ function sortByPriority() {
                             >search</span
                         >
                     </td>
+                    <td>
+                        <span
+                            class="material-symbols-outlined"
+                            @click="deleteConfirmation(task)"
+                            >delete</span
+                        >
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -149,7 +167,8 @@ td {
     background-color: inherit !important;
     cursor: default;
 }
-td:nth-child(6):hover {
+td:nth-child(6):hover,
+td:nth-child(7):hover {
     cursor: pointer;
 }
 </style>

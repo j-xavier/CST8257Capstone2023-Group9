@@ -170,6 +170,26 @@ export const viewTask = async (id) => {
     }
 };
 
+export const deleteTask = async (id) => {
+    try {
+        const response = await api({
+            method: "delete",
+            url: `/api/tasklists/${state.tasklistId}/tasks/${id}`,
+            headers: { Authorization: `Bearer ${state.token}` },
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+    return null;
+
+};
+
+
 //export all methods
 export default {
     login,
@@ -180,4 +200,5 @@ export default {
     updateTasklist,
     updateTask,
     viewTask,
+    deleteTask,
 };
