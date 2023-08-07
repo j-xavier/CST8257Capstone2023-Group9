@@ -41,3 +41,9 @@ const currentView = computed(() => views[state.view]);
         <component :is="currentView" />
     </main>
 </template>
+
+<style>
+body {
+    font-family: "Ubuntu", sans-serif;
+}
+</style>
