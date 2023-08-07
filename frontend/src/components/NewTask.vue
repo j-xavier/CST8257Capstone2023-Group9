@@ -1,7 +1,7 @@
 <script setup>
 import { state } from "../state.js";
 import { createTask } from "../api.js";
-import { reactive, ref } from "vue";
+import { reactive, ref, computed } from "vue";
 
 const task = reactive({
     title: "",
@@ -13,8 +13,30 @@ const task = reactive({
 
 const waitingForResponse = ref(false);
 
-async function formHandler() {
-    if(waitingForResponse.value) {
+async function formHandler(event) {
+    if (waitingForResponse.value) {
+        return;
+    }
+
+    event.target.classList.remove("was-validated");
+
+    const dates = document.querySelectorAll("input[type=date]");
+    dates.forEach((input) => {
+        input.classList.remove("is-invalid");
+        input.setCustomValidity("");
+    });
+
+    if (!event.target.checkValidity()) {
+        event.target.classList.add("was-validated");
+        return;
+    }
+
+    if (new Date(task.start_date) >= new Date(task.due_date)) {
+        event.target.classList.add("was-validated");
+        dates.forEach((input) => {
+            input.classList.add("is-invalid");
+            input.setCustomValidity("Start date must be before due date");
+        });
         return;
     }
 
@@ -28,10 +50,25 @@ async function formHandler() {
         alert("Failed to create tasklist");
     }
 }
+
+const isInvalidStartDate = computed(() => {
+    return new Date(task.start_date) >= new Date(task.due_date);
+});
 </script>
 
 <template>
-    <form @submit.prevent="formHandler">
+    <div class="row justify-content-between my-3">
+        <div class="col-auto">
+            <h1>Create Task</h1>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-secondary" @click="state.view = 'Tasklist'">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <form @submit.prevent="formHandler" novalidate>
         <div>
             <div>
                 <label for="title" class="form-label">Task Name: </label>
@@ -43,6 +80,7 @@ async function formHandler() {
                     placeholder="Title"
                     required
                 />
+                <div class="invalid-feedback">Please enter a title</div>
             </div>
             <div>
                 <label for="description" class="form-label"
@@ -56,6 +94,7 @@ async function formHandler() {
                     placeholder="Description"
                     required
                 />
+                <div class="invalid-feedback">Please enter a description</div>
             </div>
             <div>
                 <label for="start_date" class="form-label">Start Date: </label>
@@ -67,6 +106,13 @@ async function formHandler() {
                     placeholder="Start Date"
                     required
                 />
+                <div class="invalid-feedback">
+                    {{
+                        isInvalidStartDate
+                            ? "Start date must be before due date"
+                            : "Please enter a start date"
+                    }}
+                </div>
             </div>
 
             <div>
@@ -79,6 +125,13 @@ async function formHandler() {
                     placeholder="Due Date"
                     required
                 />
+                <div class="invalid-feedback">
+                    {{
+                        isInvalidStartDate
+                            ? "Due date must be after start date"
+                            : "Please enter a due date"
+                    }}
+                </div>
             </div>
 
             <div>
@@ -93,8 +146,16 @@ async function formHandler() {
                     <option value="2">Medium</option>
                     <option value="3">High</option>
                 </select>
+                <div class="invalid-feedback">Please select a priority</div>
             </div>
         </div>
-        <button type="submit" :class="`btn btn-primary my-3 ${waitingForResponse ? 'disabled' : ''}`">Create Task</button>
+        <button
+            type="submit"
+            :class="`btn btn-primary my-3 ${
+                waitingForResponse ? 'disabled' : ''
+            }`"
+        >
+            Create Task
+        </button>
     </form>
 </template>

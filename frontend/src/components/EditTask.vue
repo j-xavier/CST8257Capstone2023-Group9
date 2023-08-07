@@ -12,7 +12,29 @@ const list = reactive({
     id: state.task.id,
 });
 
-async function handleEditTask() {
+async function handleEditTask(event) {
+    event.target.classList.remove("was-validated");
+
+    const dates = document.querySelectorAll("input[type=date]");
+    dates.forEach((input) => {
+        input.classList.remove("is-invalid");
+        input.setCustomValidity("");
+    });
+
+    if (!event.target.checkValidity()) {
+        event.target.classList.add("was-validated");
+        return;
+    }
+
+    if (new Date(task.start_date) >= new Date(task.due_date)) {
+        event.target.classList.add("was-validated");
+        dates.forEach((input) => {
+            input.classList.add("is-invalid");
+            input.setCustomValidity("Start date must be before due date");
+        });
+        return;
+    }
+
     const response = await updateTask(list);
 
     if (response) {
@@ -33,64 +55,69 @@ async function handleEditTask() {
 </script>
 
 <template>
-    <form @submit.prevent="handleEditTask">
+    <div class="row my-3 justify-content-between align-items-center">
+        <div class="col-auto">
+            <h1>Edit Task</h1>
+        </div>
+    </div>
+    <form @submit.prevent="handleEditTask" novalidate>
         <div>
             <label for="title">Task Name:</label>
-            <div>
-                <input
-                    name="title"
-                    type="text"
-                    class="form-control"
-                    v-model="list.title"
-                />
-            </div>
+            <input
+                name="title"
+                type="text"
+                class="form-control"
+                v-model="list.title"
+                required
+            />
+            <div class="invalid-feedback">Title is required</div>
         </div>
         <div>
             <label for="description">Description:</label>
-            <div>
-                <input
-                    name="description"
-                    type="text"
-                    class="form-control"
-                    v-model="list.description"
-                />
-            </div>
+            <input
+                name="description"
+                type="text"
+                class="form-control"
+                v-model="list.description"
+                required
+            />
+            <div class="invalid-feedback">Description is required</div>
         </div>
         <div>
             <label for="start_date">Start Date:</label>
-            <div>
-                <input
-                    name="start_date"
-                    type="date"
-                    class="form-control"
-                    v-model="list.start_date"
-                />
-            </div>
+            <input
+                name="start_date"
+                type="date"
+                class="form-control"
+                v-model="list.start_date"
+                required
+            />
+            <div class="invalid-feedback">Start date is required</div>
         </div>
         <div>
             <label for="due_date">Due Date:</label>
-            <div>
-                <input
-                    name="due_date"
-                    type="date"
-                    class="form-control"
-                    v-model="list.due_date"
-                />
-            </div>
+            <input
+                name="due_date"
+                type="date"
+                class="form-control"
+                v-model="list.due_date"
+                required
+            />
+            <div class="invalid-feedback">Due date is required</div>
         </div>
         <div>
             <label for="priority_id">Priority:</label>
-            <div>
-                <select
-                    name="priority_id"
-                    class="form-control"
-                    v-model="list.priority_id"
-                >
-                    <option value="1">Low</option>
-                    <option value="2">Medium</option>
-                    <option value="3">High</option>
-                </select>
-            </div>
+            <select
+                name="priority_id"
+                class="form-control"
+                v-model="list.priority_id"
+                required
+            >
+                <option value="1">Low</option>
+                <option value="2">Medium</option>
+                <option value="3">High</option>
+            </select>
+            <div class="invalid-feedback">Priority is required</div>
         </div>
         <div class="my-3 d-flex justify-content-end">
             <button type="submit" class="btn btn-primary me-3">
