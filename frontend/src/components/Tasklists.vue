@@ -4,9 +4,14 @@ import { state } from "../state.js";
 import { ref } from "vue";
 
 const taskLists = ref(null);
-tasklists(sessionStorage.getItem("token")).then((response) => {
-    taskLists.value = response;
-});
+
+function getTasklists(){
+    tasklists(sessionStorage.getItem("token")).then((response) => {
+        taskLists.value = response;
+    });
+}
+
+getTasklists();
 
 function openTasklist(tasklist) {
     state.view = "Tasklist";
@@ -40,6 +45,8 @@ function sortByTasks() {
 function deleteConfirmation(tasklistToDelete) {
     if (confirm("Are you sure you want to delete the following tasklist?\n\n" + tasklistToDelete.title + "\n\nThis action cannot be undone.")) {
         deleteTasklist(tasklistToDelete.id);
+        taskLists.value = null;
+        getTasklists();
         // tasklist().then((response) => {
         //     taskList.value = response;
         // });

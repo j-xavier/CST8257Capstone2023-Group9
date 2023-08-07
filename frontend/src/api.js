@@ -199,8 +199,6 @@ export const deleteTasklist = async (id) => {
         });
 
         if (response.status === 200) {
-            tasklist.value = null;
-            await tasklists();
             return response.data;
         }
     } catch (error) {
