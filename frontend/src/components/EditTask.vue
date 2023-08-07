@@ -1,6 +1,6 @@
 <script setup>
 import { state } from "../state";
-import { reactive } from "vue";
+import { reactive, computed, ref } from "vue";
 import { updateTask } from "../api";
 
 const list = reactive({
@@ -12,7 +12,13 @@ const list = reactive({
     id: state.task.id,
 });
 
+const waitingForResponse = ref(false);
+
 async function handleEditTask(event) {
+    if (waitingForResponse.value) {
+        return;
+    }
+
     event.target.classList.remove("was-validated");
 
     const dates = document.querySelectorAll("input[type=date]");
@@ -21,21 +27,29 @@ async function handleEditTask(event) {
         input.setCustomValidity("");
     });
 
+    let validForm = true;
+
     if (!event.target.checkValidity()) {
         event.target.classList.add("was-validated");
-        return;
+        validForm = false;
     }
 
-    if (new Date(task.start_date) >= new Date(task.due_date)) {
+    if (new Date(list.start_date) >= new Date(list.due_date)) {
         event.target.classList.add("was-validated");
         dates.forEach((input) => {
             input.classList.add("is-invalid");
             input.setCustomValidity("Start date must be before due date");
         });
+        validForm = false;
+    }
+
+    if (!validForm) {
         return;
     }
 
+    waitingForResponse.value = true;
     const response = await updateTask(list);
+    waitingForResponse.value = false;
 
     if (response) {
         state.task = list;
@@ -52,6 +66,10 @@ async function handleEditTask(event) {
     //     alert('Failed to create task');
     // }
 }
+
+const isInvalidStartDate = computed(() => {
+    return new Date(list.start_date) >= new Date(list.due_date);
+});
 </script>
 
 <template>
@@ -92,7 +110,13 @@ async function handleEditTask(event) {
                 v-model="list.start_date"
                 required
             />
-            <div class="invalid-feedback">Start date is required</div>
+            <div class="invalid-feedback">
+                {{
+                    isInvalidStartDate
+                        ? "Start date must be before due date"
+                        : "Please enter a start date"
+                }}
+            </div>
         </div>
         <div>
             <label for="due_date">Due Date:</label>
@@ -103,7 +127,13 @@ async function handleEditTask(event) {
                 v-model="list.due_date"
                 required
             />
-            <div class="invalid-feedback">Due date is required</div>
+            <div class="invalid-feedback">
+                {{
+                    isInvalidStartDate
+                        ? "Due date must be after start date"
+                        : "Please enter a due date"
+                }}
+            </div>
         </div>
         <div>
             <label for="priority_id">Priority:</label>
@@ -120,7 +150,12 @@ async function handleEditTask(event) {
             <div class="invalid-feedback">Priority is required</div>
         </div>
         <div class="my-3 d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary me-3">
+            <button
+                type="submit"
+                :class="`btn btn-primary me-3 ${
+                    waitingForResponse ? 'disabled' : ''
+                }`"
+            >
                 Update Task
             </button>
             <button class="btn btn-secondary" @click="state.view = 'Tasklist'">

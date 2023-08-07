@@ -26,9 +26,11 @@ async function formHandler(event) {
         input.setCustomValidity("");
     });
 
+    let validForm = true;
+
     if (!event.target.checkValidity()) {
         event.target.classList.add("was-validated");
-        return;
+        validForm = false;
     }
 
     if (new Date(task.start_date) >= new Date(task.due_date)) {
@@ -37,6 +39,10 @@ async function formHandler(event) {
             input.classList.add("is-invalid");
             input.setCustomValidity("Start date must be before due date");
         });
+        validForm = false;
+    }
+
+    if (!validForm) {
         return;
     }
 
