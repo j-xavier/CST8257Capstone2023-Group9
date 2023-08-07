@@ -84,6 +84,7 @@ async function formHandler() {
             <button type="submit" :class="`btn btn-primary my-3 ${waitingForResponse ? 'disabled' : ''}` " @click="formHandler">
             Sign Up
             </button>
+            <button type="button" class="btn btn-secondary my-3 ms-3" @click="state.view = 'Login'">Cancel</button>
         </div>
 
     </form>
