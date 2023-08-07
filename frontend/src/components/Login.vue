@@ -64,12 +64,16 @@ async function loginHandler() {
             >
                 Login
             </button>
+
+            <div>
+                <p class="my-3">Don't have an account?</p>
+                
+            </div>
+            <button class="btn btn-primary" @click="state.view = 'Signup'">
+                    Signup
+                </button>
         </div>
+        
     </form>
-    <div>
-        <p>Don't have an account?</p>
-        <button class="btn btn-primary" @click="state.view = 'Signup'">
-            Signup
-        </button>
-    </div>
+    
 </template>
