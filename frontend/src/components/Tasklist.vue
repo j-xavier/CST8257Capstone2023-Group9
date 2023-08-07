@@ -158,6 +158,9 @@ function deleteConfirmation(taskToDelete) {
                 </tr>
             </tbody>
         </table>
+        <div v-else>
+            <p>No tasks found!</p>
+        </div>
     </div>
     <h1 v-else>Loading...</h1>
 </template>

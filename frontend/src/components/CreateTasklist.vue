@@ -20,25 +20,47 @@ async function formHandler() {
 </script>
 
 <template>
-    <button @click="state.view = 'Tasklists'">Cancel</button>
-    <!-- form for creating a new tasklist -->
-    <form @submit.prevent="formHandler">
-        <label for="title">Tasklist Name: </label>
-        <input
-            type="text"
-            id="title"
-            v-model="list.title"
-            placeholder="Title"
-            required
-        />
-        <label for="color">Color: </label>
-        <select id="color" v-model="list.color" required>
-            <option value="red">Red</option>
-            <option value="blue">Blue</option>
-            <option value="green">Green</option>
-            <option value="yellow">Yellow</option>
-        </select>
-
-        <button type="submit">Create Tasklist</button>
-    </form>
+    <div class="row justify-content-between my-3">
+            <div class="col-auto">
+                <h2 class="m-0">Create Tasklist</h2>
+            </div>
+            <div class="col-auto">
+                <button
+                    class="btn btn-primary"
+                    @click="state.view = 'Tasklists'"
+                >
+                    Cancel
+                </button>
+            </div>
+    </div>
+    
+    <div>
+        <form @submit.prevent="formHandler">
+            <div class="form-group my-3">
+                <label for="title">Tasklist Name: </label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    v-model="list.title"
+                    placeholder="Title"
+                    required
+                />
+            </div>
+            <div class="form-group my-3">
+                <label for="color">Color: </label>
+                <select id="color" v-model="list.color" class="form-control" required>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="yellow">Yellow</option>
+                </select>
+            </div>
+            <div>
+                <button class="btn btn-primary " type="submit">Create Tasklist</button>
+            </div>
+                            
+        </form>
+    </div>
+    
 </template>
