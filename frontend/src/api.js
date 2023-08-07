@@ -207,6 +207,26 @@ export const deleteTasklist = async (id) => {
 
 };
 
+export const register = async (user) => {
+    try {
+        const response = await api({
+            method: "post",
+            url: "/register",
+            data: {
+                name: user.name,
+                email: user.email,
+                password: user.password,
+                password_confirmation: user.password_confirmation,
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 //export all methods
 export default {
@@ -220,4 +240,5 @@ export default {
     viewTask,
     deleteTask,
     deleteTasklist,
+    register,
 };

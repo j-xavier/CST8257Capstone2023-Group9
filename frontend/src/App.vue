@@ -11,6 +11,7 @@ import NewTask from "./components/NewTask.vue";
 import EditTasklist from "./components/EditTasklist.vue";
 import EditTask from "./components/EditTask.vue";
 import ViewTask from "./components/ViewTask.vue";
+import Signup from "./components/Signup.vue";
 
 state.token = sessionStorage.getItem("token") || "";
 
@@ -27,6 +28,7 @@ const views = {
     EditTasklist,
     EditTask,
     ViewTask,
+    Signup,
 };
 
 const currentView = computed(() => views[state.view]);

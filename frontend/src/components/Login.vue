@@ -66,4 +66,10 @@ async function loginHandler() {
             </button>
         </div>
     </form>
+    <div>
+        <p>Don't have an account?</p>
+        <button class="btn btn-primary" @click="state.view = 'Signup'">
+            Signup
+        </button>
+    </div>
 </template>
