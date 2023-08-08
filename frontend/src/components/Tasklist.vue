@@ -36,7 +36,7 @@ function seeTask(task, taskList) {
 
 function sortByName() {
     taskList.value.tasks.sort((a, b) => {
-        if (a.title < b.title) {
+        if (a.title.toLowerCase() < b.title.toLowerCase()) {
             return -1;
         } else if (a.title > b.title) {
             return 1;
@@ -83,7 +83,13 @@ function sortByPriority() {
 }
 
 function deleteConfirmation(taskToDelete) {
-    if (confirm("Are you sure you want to delete the following task?\n\n" + taskToDelete.title + "\n\nThis action cannot be undone.")) {
+    if (
+        confirm(
+            "Are you sure you want to delete the following task?\n\n" +
+                taskToDelete.title +
+                "\n\nThis action cannot be undone."
+        )
+    ) {
         deleteTask(taskToDelete.id);
         tasklist().then((response) => {
             taskList.value = response;
@@ -121,11 +127,19 @@ function deleteConfirmation(taskToDelete) {
         <table v-if="taskList.tasks.length" class="table table-hover">
             <thead>
                 <tr>
-                    <th @click="sortByName" style="cursor: pointer;">Task Name</th>
+                    <th @click="sortByName" style="cursor: pointer">
+                        Task Name
+                    </th>
                     <th>Description</th>
-                    <th @click="sortByStartDate" style="cursor: pointer;">Start Date</th>
-                    <th @click="sortByDueDate" style="cursor: pointer;">Due Date</th>
-                    <th @click="sortByPriority" style="cursor: pointer;">Priority</th>
+                    <th @click="sortByStartDate" style="cursor: pointer">
+                        Start Date
+                    </th>
+                    <th @click="sortByDueDate" style="cursor: pointer">
+                        Due Date
+                    </th>
+                    <th @click="sortByPriority" style="cursor: pointer">
+                        Priority
+                    </th>
                     <th>View</th>
                     <th>Delete</th>
                 </tr>

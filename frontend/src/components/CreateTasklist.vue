@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { createTasklist } from "../api.js";
 import { state } from "../state.js";
 
@@ -8,13 +8,21 @@ const list = reactive({
     color: "red",
 });
 
+const waitingForResponse = ref(false);
+
 async function formHandler(event) {
+    if (waitingForResponse.value) {
+        return;
+    }
+
     if (!event.target.checkValidity()) {
         event.target.classList.add("was-validated");
         return;
     }
 
+    waitingForResponse.value = true;
     const response = await createTasklist(list);
+    waitingForResponse.value = false;
 
     if (response) {
         state.view = "Tasklists";
@@ -58,7 +66,14 @@ async function formHandler(event) {
             </div>
 
             <div>
-                <button class="btn btn-primary" type="submit">Create</button>
+                <button
+                    :class="`btn btn-primary ${
+                        waitingForResponse ? 'disabled' : ''
+                    }`"
+                    type="submit"
+                >
+                    Create
+                </button>
 
                 <button
                     class="btn btn-secondary ms-3"
