@@ -26,36 +26,41 @@ function handleEditTask(task) {
 </script>
 
 <template>
-    <form class="d-flex" @submit.prevent="handleEditTasklist">
+    <form
+        class="d-flex my-3 justify-content-center"
+        @submit.prevent="handleEditTasklist"
+    >
         <div class="d-flex align-items-center">
             <label for="title">Tasklist Name:</label>
-            <div>
+            <div class="ms-1">
                 <input type="text" class="form-control" v-model="list.title" />
             </div>
-            
         </div>
 
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center ms-3">
             <label for="color">Color:</label>
-            <div>
+            <div class="ms-1">
                 <select class="form-control" v-model="list.color">
-                <option value="red">Red</option>
-                <option value="blue">Blue</option>
-                <option value="green">Green</option>
-                <option value="yellow">Yellow</option>
-            </select>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="yellow">Yellow</option>
+                </select>
             </div>
         </div>
 
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center ms-3">
             <button type="submit" class="btn btn-primary">
                 Update Tasklist
             </button>
-            <button class="btn btn-secondary" @click="state.view = 'Tasklist'">Cancel</button>
+            <button
+                class="btn btn-secondary ms-1"
+                @click="state.view = 'Tasklist'"
+            >
+                Cancel
+            </button>
         </div>
     </form>
-
-
 
     <table v-if="state.tasklist.tasks.length" class="table table-hover">
         <thead>
@@ -75,7 +80,13 @@ function handleEditTask(task) {
                 <td>{{ task.start_date }}</td>
                 <td>{{ task.due_date }}</td>
                 <td>{{ task.priority_name }}</td>
-                <td><span class="material-symbols-outlined" @click="handleEditTask(task)">edit_square</span></td>
+                <td>
+                    <span
+                        class="material-symbols-outlined"
+                        @click="handleEditTask(task)"
+                        >edit_square</span
+                    >
+                </td>
             </tr>
         </tbody>
     </table>
