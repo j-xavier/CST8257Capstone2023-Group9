@@ -59,6 +59,16 @@ function deleteConfirmation(tasklistToDelete) {
         //console.log(tasklistToDelete);
     }
 }
+
+function getRowColor(color) {
+    const colors = {
+        red: "#fcc",
+        blue: "#ccf",
+        green: "#cfc",
+        yellow: "#ffc",
+    };
+    return { backgroundColor: colors[color] };
+}
 </script>
 
 <template>
@@ -86,7 +96,11 @@ function deleteConfirmation(tasklistToDelete) {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="taskList in taskLists" :key="taskList.id">
+                <tr
+                    v-for="taskList in taskLists"
+                    :key="taskList.id"
+                    :style="getRowColor(taskList.color)"
+                >
                     <td @click="openTasklist(taskList)" style="cursor: pointer">
                         {{ taskList.title }}
                     </td>

@@ -23,6 +23,16 @@ function handleEditTask(task) {
     state.task = task;
     state.view = "EditTask";
 }
+
+function getRowColor(index) {
+    const colors = {
+        red: ["#f99", "#fcc"],
+        blue: ["#99f", "#ccf"],
+        green: ["#9f9", "#cfc"],
+        yellow: ["#ff9", "#ffc"],
+    };
+    return { backgroundColor: colors[state.tasklist.color][index % 2] };
+}
 </script>
 
 <template>
@@ -74,7 +84,11 @@ function handleEditTask(task) {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(task, index) in state.tasklist.tasks" :key="index">
+            <tr
+                v-for="(task, index) in state.tasklist.tasks"
+                :key="index"
+                :style="getRowColor(index)"
+            >
                 <td>{{ task.title }}</td>
                 <td>{{ task.description }}</td>
                 <td>{{ task.start_date }}</td>
