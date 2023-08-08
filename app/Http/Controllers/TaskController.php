@@ -30,6 +30,18 @@ class TaskController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'priority_id' => 'required|integer',
+            'start_date' => 'required|date',
+            'due_date' => 'required|date',
+        ]);
+
+        if ($request->start_date > $request->due_date) {
+            return response()->json(['message' => 'Start date must be before due date'], 400);
+        }
+
         $task = new Task();
 
         //fields that are not in the form
@@ -66,6 +78,18 @@ class TaskController extends Controller
     {
         if (Auth::id() !== $task->tasklist->user_id) {
             return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'priority_id' => 'required|integer',
+            'start_date' => 'required|date',
+            'due_date' => 'required|date',
+        ]);
+
+        if ($request->start_date > $request->due_date) {
+            return response()->json(['message' => 'Start date must be before due date'], 400);
         }
 
         $task->title = $request->title;

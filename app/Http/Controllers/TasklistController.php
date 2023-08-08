@@ -26,6 +26,11 @@ class TasklistController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required',
+            'color' => 'required|in:red,blue,green,yellow',
+        ]);
+
         $tasklist = new Tasklist();
 
         //fields that are not in the form
@@ -51,11 +56,11 @@ class TasklistController extends Controller
 
         // load tasklist with all tasks, and add priority name using priority id in the task
         $tasklist->load('tasks');
-       
+
         $tasklist->tasks->each(function ($task) {
             $task->priority_name = $task->priority->priority;
         });
-        
+
 
         return response()->json($tasklist, 200);
     }
@@ -68,6 +73,11 @@ class TasklistController extends Controller
         if (Auth::id() !== $tasklist->user_id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
+
+        $request->validate([
+            'title' => 'required',
+            'color' => 'required|in:red,blue,green,yellow',
+        ]);
 
         $tasklist->title = $request->title;
         $tasklist->color = $request->color;
