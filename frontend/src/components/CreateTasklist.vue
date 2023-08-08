@@ -8,7 +8,12 @@ const list = reactive({
     color: "red",
 });
 
-async function formHandler() {
+async function formHandler(event) {
+    if (!event.target.checkValidity()) {
+        event.target.classList.add("was-validated");
+        return;
+    }
+
     const response = await createTasklist(list);
 
     if (response) {
@@ -20,47 +25,49 @@ async function formHandler() {
 </script>
 
 <template>
-    <div class="row justify-content-between my-3">
-            <div class="col-auto">
-                <h2 class="m-0">Create Tasklist</h2>
+    <form @submit.prevent="formHandler" novalidate>
+        <div class="d-flex flex-column align-items-center">
+            <h1>Create Tasklist</h1>
+            <div>
+                <div class="form-group my-3">
+                    <label for="title">Tasklist Name: </label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        v-model="list.title"
+                        required
+                    />
+                    <div class="invalid-feedback">Name is required</div>
+                </div>
+                <div class="form-group my-3">
+                    <label for="color">Color: </label>
+                    <select
+                        id="color"
+                        v-model="list.color"
+                        class="form-control"
+                        required
+                    >
+                        <option value="red">Red</option>
+                        <option value="blue">Blue</option>
+                        <option value="green">Green</option>
+                        <option value="yellow">Yellow</option>
+                    </select>
+                    <div class="invalid-feedback">Color is required</div>
+                </div>
             </div>
-            <div class="col-auto">
+
+            <div>
+                <button class="btn btn-primary" type="submit">Create</button>
+
                 <button
-                    class="btn btn-primary"
-                    @click="state.view = 'Tasklists'"
+                    class="btn btn-secondary ms-3"
+                    type="button"
+                    @click="() => (state.view = 'Tasklists')"
                 >
                     Cancel
                 </button>
             </div>
-    </div>
-    
-    <div>
-        <form @submit.prevent="formHandler">
-            <div class="form-group my-3">
-                <label for="title">Tasklist Name: </label>
-                <input
-                    type="text"
-                    class="form-control"
-                    id="title"
-                    v-model="list.title"
-                    placeholder="Title"
-                    required
-                />
-            </div>
-            <div class="form-group my-3">
-                <label for="color">Color: </label>
-                <select id="color" v-model="list.color" class="form-control" required>
-                    <option value="red">Red</option>
-                    <option value="blue">Blue</option>
-                    <option value="green">Green</option>
-                    <option value="yellow">Yellow</option>
-                </select>
-            </div>
-            <div>
-                <button class="btn btn-primary " type="submit">Create Tasklist</button>
-            </div>
-                            
-        </form>
-    </div>
-    
+        </div>
+    </form>
 </template>
