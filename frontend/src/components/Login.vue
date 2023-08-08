@@ -8,16 +8,24 @@ const password = ref("");
 
 const waitingForResponse = ref(false);
 
-async function loginHandler() {
+async function loginHandler(event) {
     // this prevents the form from being submitted if the user is already waiting for a response
     if (waitingForResponse.value) {
         return;
     }
+
+    if (!event.target.checkValidity()) {
+        event.target.classList.add("was-validated");
+        return;
+    }
+
     waitingForResponse.value = true;
     const response = await login(email.value, password.value);
     waitingForResponse.value = false;
 
-    if (response.token) {
+    console.log(response);
+
+    if (response) {
         state.token = response.token;
         sessionStorage.setItem("token", response.token);
         state.view = "Tasklists";
@@ -28,7 +36,7 @@ async function loginHandler() {
 </script>
 
 <template>
-    <form @submit.prevent="loginHandler">
+    <form @submit.prevent="loginHandler" novalidate>
         <div class="d-flex flex-column align-items-center">
             <h1>Login</h1>
 
@@ -42,6 +50,7 @@ async function loginHandler() {
                     class="form-control"
                     required
                 />
+                <div class="invalid-feedback">Valid email is required</div>
             </div>
 
             <div class="mb-3">
@@ -54,6 +63,7 @@ async function loginHandler() {
                     class="form-control"
                     required
                 />
+                <div class="invalid-feedback">Password is required</div>
             </div>
 
             <button
@@ -67,13 +77,10 @@ async function loginHandler() {
 
             <div>
                 <p class="my-3">Don't have an account?</p>
-                
             </div>
             <button class="btn btn-primary" @click="state.view = 'Signup'">
-                    Signup
-                </button>
+                Signup
+            </button>
         </div>
-        
     </form>
-    
 </template>
