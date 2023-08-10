@@ -30,11 +30,22 @@ class TaskController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'priority_id' => 'required|integer',
+            'start_date' => 'required|date',
+            'due_date' => 'required|date',
+        ]);
+
+        if ($request->start_date > $request->due_date) {
+            return response()->json(['message' => 'Start date must be before due date'], 400);
+        }
+
         $task = new Task();
 
         //fields that are not in the form
         $task->tasklist_id = $tasklist->id;
-        $task->view_order = $tasklist->tasks->count() + 1;
 
         //fields that are in the form
         $task->title = $request->title;
@@ -69,7 +80,18 @@ class TaskController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        $task->view_order = $request->view_order;
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'priority_id' => 'required|integer',
+            'start_date' => 'required|date',
+            'due_date' => 'required|date',
+        ]);
+
+        if ($request->start_date > $request->due_date) {
+            return response()->json(['message' => 'Start date must be before due date'], 400);
+        }
+
         $task->title = $request->title;
         $task->description = $request->description;
         $task->priority_id = $request->priority_id;

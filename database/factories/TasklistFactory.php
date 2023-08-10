@@ -19,7 +19,7 @@ class TasklistFactory extends Factory
         return [
             'user_id' => fake()->numberBetween(1, 2),
             'title' => fake()->sentence(3),
-            'color' => fake()->hexColor(),
+            'color' => fake()->randomElement(['red', 'green', 'blue', 'yellow'])
         ];
     }
 }

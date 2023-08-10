@@ -17,9 +17,8 @@ return new class extends Migration
             $table->string('title', 100);
             $table->string('description', 1000);
             $table->foreignId('priority_id')->constrained();
-            $table->integer('view_order');
-            $table->dateTime('start_date');
-            $table->dateTime('due_date');
+            $table->date('start_date');
+            $table->date('due_date');
             $table->timestamps();
         });
     }
