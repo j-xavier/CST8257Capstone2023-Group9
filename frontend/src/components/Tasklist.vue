@@ -91,6 +91,7 @@ function deleteConfirmation(taskToDelete) {
         )
     ) {
         deleteTask(taskToDelete.id);
+        taskList.value = null;
         tasklist().then((response) => {
             taskList.value = response;
         });

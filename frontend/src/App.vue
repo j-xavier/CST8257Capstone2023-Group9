@@ -46,4 +46,34 @@ const currentView = computed(() => views[state.view]);
 body {
     font-family: "Ubuntu", sans-serif;
 }
+
+.btn-primary {
+    background-color: #ccd5ae;
+    border: solid 1px #ccd5ae;
+    color: black;
+}
+
+.btn-primary:hover {
+    background-color: #e9edc9;
+    border: solid 1px #ccd5ae;
+    color: black;
+}
+
+.btn-primary.disabled {
+    background-color: #83b18a;
+    color: #666;
+}
+
+.btn-primary:active {
+    background-color: #57755d !important;
+    color: #fff !important;
+}
+
+body {
+    background-color: #eef0de;
+}
+
+th {
+    background-color: #eef0de !important;
+}
 </style>

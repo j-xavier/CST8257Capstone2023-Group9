@@ -38,7 +38,7 @@ async function loginHandler(event) {
 <template>
     <form @submit.prevent="loginHandler" novalidate>
         <div class="d-flex flex-column align-items-center">
-            <h1>Login</h1>
+            <h1 class="my-3">Login</h1>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
@@ -78,7 +78,12 @@ async function loginHandler(event) {
             <div>
                 <p class="my-3">Don't have an account?</p>
             </div>
-            <button class="btn btn-primary" @click="state.view = 'Signup'">
+            <button
+                :class="`btn btn-primary ${
+                    waitingForResponse ? 'disabled' : ''
+                }`"
+                @click="state.view = 'Signup'"
+            >
                 Signup
             </button>
         </div>

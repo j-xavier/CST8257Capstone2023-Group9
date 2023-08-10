@@ -1,15 +1,28 @@
 <script setup>
 import { state } from "../state.js";
 import { updateTasklist } from "../api.js";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 
 const list = reactive({
     title: state.tasklist.title,
     color: state.tasklist.color,
 });
 
-async function handleEditTasklist() {
+const waitingForResponse = ref(false);
+
+async function handleEditTasklist(event) {
+    if (waitingForResponse.value) {
+        return;
+    }
+
+    if (!event.target.checkValidity()) {
+        event.target.classList.add("was-validated");
+        return;
+    }
+
+    waitingForResponse.value = true;
     const response = await updateTasklist(list);
+    waitingForResponse.value = false;
 
     if (response) {
         state.tasklist = list;
@@ -39,32 +52,47 @@ function getRowColor(index) {
     <form
         class="d-flex my-3 justify-content-center"
         @submit.prevent="handleEditTasklist"
+        novalidate
     >
         <div class="d-flex align-items-center">
             <label for="title">Tasklist Name:</label>
             <div class="ms-1">
-                <input type="text" class="form-control" v-model="list.title" />
+                <input
+                    type="text"
+                    class="form-control"
+                    v-model="list.title"
+                    required
+                    placeholder="Enter tasklist name"
+                />
             </div>
         </div>
 
         <div class="d-flex align-items-center ms-3">
             <label for="color">Color:</label>
             <div class="ms-1">
-                <select class="form-control" v-model="list.color">
+                <select class="form-control" v-model="list.color" required>
                     <option value="red">Red</option>
                     <option value="blue">Blue</option>
                     <option value="green">Green</option>
                     <option value="yellow">Yellow</option>
                 </select>
+                <div class="invalid-feedback">Please select a color</div>
             </div>
         </div>
 
         <div class="d-flex align-items-center ms-3">
-            <button type="submit" class="btn btn-primary">
+            <button
+                type="submit"
+                :class="`btn btn-primary ${
+                    waitingForResponse ? 'disabled' : ''
+                }`"
+            >
                 Update Tasklist
             </button>
             <button
-                class="btn btn-secondary ms-1"
+                :class="`btn btn-secondary ms-1 ${
+                    waitingForResponse ? 'disabled' : ''
+                }`"
                 @click="state.view = 'Tasklist'"
             >
                 Cancel

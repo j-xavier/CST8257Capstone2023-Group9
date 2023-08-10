@@ -50,7 +50,7 @@ async function formHandler(event) {
 <template>
     <form @submit.prevent="formHandler" novalidate>
         <div class="d-flex flex-column align-items-center">
-            <h1>Sign Up</h1>
+            <h1 class="my-3">Sign Up</h1>
             <div class="mb-3">
                 <label for="name" class="form-label">Name: </label>
                 <input
